@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { ClipboardCheck, LayoutDashboard, ShieldAlert } from "lucide-react";
+import { Bot, ClipboardCheck, LayoutDashboard, ShieldAlert } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/checklists", label: "Checklisten", icon: ClipboardCheck },
   { href: "/dashboard/incidents", label: "Vorfälle", icon: ShieldAlert },
+  { href: "/dashboard/ai-chat", label: "AI Chat", icon: Bot },
 ];
 
 export function Sidebar() {
