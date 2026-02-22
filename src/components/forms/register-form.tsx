@@ -32,7 +32,8 @@ export function RegisterForm() {
     });
 
     if (!response.ok) {
-      setError("Registration failed.");
+      const data = (await response.json().catch(() => null)) as { error?: string } | null;
+      setError(data?.error ?? "Registration failed.");
       return;
     }
 

@@ -1,9 +1,14 @@
+import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/lib/auth-schema";
 
 export async function POST(request: Request) {
+  if (!process.env.DATABASE_URL) {
+    return NextResponse.json({ error: "Server configuration error: DATABASE_URL is missing." }, { status: 500 });
+  }
+
   try {
     const payload = await request.json();
     const parsed = registerSchema.safeParse(payload);
@@ -14,7 +19,7 @@ export async function POST(request: Request) {
 
     const existing = await prisma.user.findUnique({ where: { email: parsed.data.email } });
     if (existing) {
-      return NextResponse.json({ error: "User already exists." }, { status: 409 });
+      return NextResponse.json({ error: "A user with this email already exists." }, { status: 409 });
     }
 
     const passwordHash = await bcrypt.hash(parsed.data.password, 12);
@@ -30,7 +35,20 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ ok: true, userId: user.id }, { status: 201 });
-  } catch {
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        return NextResponse.json({ error: "A user with this email already exists." }, { status: 409 });
+      }
+
+      if (error.code === "P2021" || error.code === "P2022") {
+        return NextResponse.json(
+          { error: "Database schema is not ready. Please run Prisma migrations." },
+          { status: 500 },
+        );
+      }
+    }
+
     return NextResponse.json({ error: "Unable to register user." }, { status: 500 });
   }
 }
