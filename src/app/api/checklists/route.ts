@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUserContext } from "@/lib/auth-context";
 import { oshaChecklistTemplates } from "@/lib/osha/default-checklists";
 
 const createChecklistSchema = z.object({
@@ -12,13 +12,13 @@ const createChecklistSchema = z.object({
 });
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) {
+  const context = await getCurrentUserContext();
+  if (!context.userId || !context.companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const checklists = await prisma.checklist.findMany({
-    where: { companyId: session.user.companyId },
+    where: { companyId: context.companyId },
     include: { site: { select: { id: true, name: true } } },
     orderBy: { createdAt: "desc" },
   });
@@ -27,8 +27,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) {
+  const context = await getCurrentUserContext();
+  if (!context.userId || !context.companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
 
   const site = await prisma.site.findFirst({
-    where: { id: parsed.data.siteId, companyId: session.user.companyId },
+    where: { id: parsed.data.siteId, companyId: context.companyId },
     select: { id: true },
   });
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
 
   const checklist = await prisma.checklist.create({
     data: {
-      companyId: session.user.companyId,
+      companyId: context.companyId,
       siteId: parsed.data.siteId,
       title: parsed.data.title,
       description: parsed.data.description,

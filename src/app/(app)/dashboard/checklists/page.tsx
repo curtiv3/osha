@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUserContext } from "@/lib/auth-context";
 import { ChecklistForm } from "@/components/forms/checklist-form";
 
 export default async function ChecklistsPage() {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) redirect("/onboarding");
+  const context = await getCurrentUserContext();
+  if (!context.userId) redirect("/login");
+  if (!context.companyId) redirect("/onboarding");
 
   const [sites, checklists] = await Promise.all([
-    prisma.site.findMany({ where: { companyId: session.user.companyId }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
-    prisma.checklist.findMany({ where: { companyId: session.user.companyId }, include: { site: { select: { name: true } } }, orderBy: { createdAt: "desc" } }),
+    prisma.site.findMany({ where: { companyId: context.companyId }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
+    prisma.checklist.findMany({ where: { companyId: context.companyId }, include: { site: { select: { name: true } } }, orderBy: { createdAt: "desc" } }),
   ]);
 
   return (

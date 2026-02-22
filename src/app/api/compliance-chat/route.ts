@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUserContext } from "@/lib/auth-context";
 
 const inputSchema = z.object({
   prompt: z.string().min(5),
@@ -24,13 +24,13 @@ async function getResponse(prompt: string) {
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const context = await getCurrentUserContext();
+  if (!context.userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const history = await prisma.complianceChatMessage.findMany({
-    where: { userId: session.user.id },
+    where: { userId: context.userId },
     orderBy: { createdAt: "desc" },
     take: 20,
   });
@@ -39,8 +39,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id) {
+  const context = await getCurrentUserContext();
+  if (!context.userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -54,8 +54,8 @@ export async function POST(request: Request) {
 
   const message = await prisma.complianceChatMessage.create({
     data: {
-      userId: session.user.id,
-      companyId: session.user.companyId,
+      userId: context.userId,
+      companyId: context.companyId,
       prompt: parsed.data.prompt,
       response,
     },

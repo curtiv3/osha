@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 import { z } from "zod";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUserContext } from "@/lib/auth-context";
 
 const incidentSchema = z.object({
   siteId: z.string().min(1),
@@ -28,13 +28,13 @@ async function generateAssessment(input: z.infer<typeof incidentSchema>) {
 }
 
 export async function GET() {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) {
+  const context = await getCurrentUserContext();
+  if (!context.userId || !context.companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const incidents = await prisma.incident.findMany({
-    where: { companyId: session.user.companyId },
+    where: { companyId: context.companyId },
     include: { site: { select: { name: true } } },
     orderBy: { createdAt: "desc" },
   });
@@ -43,8 +43,8 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) {
+  const context = await getCurrentUserContext();
+  if (!context.userId || !context.companyId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
   }
 
   const site = await prisma.site.findFirst({
-    where: { id: parsed.data.siteId, companyId: session.user.companyId },
+    where: { id: parsed.data.siteId, companyId: context.companyId },
     select: { id: true },
   });
 
@@ -67,9 +67,9 @@ export async function POST(request: Request) {
 
   const incident = await prisma.incident.create({
     data: {
-      companyId: session.user.companyId,
+      companyId: context.companyId,
       siteId: parsed.data.siteId,
-      reportedById: session.user.id,
+      reportedById: context.userId,
       title: parsed.data.title,
       details: parsed.data.details,
       severity: parsed.data.severity,

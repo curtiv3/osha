@@ -1,15 +1,16 @@
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { getCurrentUserContext } from "@/lib/auth-context";
 import { IncidentForm } from "@/components/forms/incident-form";
 
 export default async function IncidentsPage() {
-  const session = await auth();
-  if (!session?.user?.id || !session.user.companyId) redirect("/onboarding");
+  const context = await getCurrentUserContext();
+  if (!context.userId) redirect("/login");
+  if (!context.companyId) redirect("/onboarding");
 
   const [sites, incidents] = await Promise.all([
-    prisma.site.findMany({ where: { companyId: session.user.companyId }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
-    prisma.incident.findMany({ where: { companyId: session.user.companyId }, include: { site: { select: { name: true } } }, orderBy: { createdAt: "desc" } }),
+    prisma.site.findMany({ where: { companyId: context.companyId }, select: { id: true, name: true }, orderBy: { name: "asc" } }),
+    prisma.incident.findMany({ where: { companyId: context.companyId }, include: { site: { select: { name: true } } }, orderBy: { createdAt: "desc" } }),
   ]);
 
   return (
