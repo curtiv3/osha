@@ -40,3 +40,14 @@
 - Fixed redirect loop/stale-session behavior for `/dashboard/checklists` and `/dashboard/incidents` by resolving current user/company from DB (`getCurrentUserContext`) instead of relying only on JWT `companyId`.
 - Updated checklists/incidents/chat APIs to use the same DB-backed auth context resolution for robust authorization after onboarding updates.
 - Added `suppressHydrationWarning` directly on Lucide SVG icons in sidebar/dashboard to suppress Dark Reader-injected SVG attribute mismatches during hydration.
+
+## Phase 3 (started)
+- Dashboard metrics expanded:
+  - Compliance score
+  - Open high/critical issues
+  - Total incidents and sites
+- Charts added with Recharts:
+  - Violations per month bar chart
+  - Site risk heatmap bars
+- Alerts section added with penalty-aware messages
+- Added `/api/dashboard-metrics` endpoint for aggregated stats payloads
