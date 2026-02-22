@@ -51,3 +51,18 @@
   - Site risk heatmap bars
 - Alerts section added with penalty-aware messages
 - Added `/api/dashboard-metrics` endpoint for aggregated stats payloads
+
+## Phase 4 (started)
+- `/admin` page added with admin-only guard
+- User management section:
+  - List users
+  - Change role between `ADMIN` and `SITE_MANAGER`
+- Content updates section:
+  - Edit and persist OSHA checklist templates JSON
+- Admin analytics section:
+  - Users, companies, incidents, high-risk incidents, AI chats
+- Admin APIs added:
+  - `GET /api/admin/users`
+  - `PATCH /api/admin/users/[id]`
+  - `GET/PUT /api/admin/checklist-templates`
+  - `GET /api/admin/analytics`

@@ -144,6 +144,15 @@ model ComplianceChatMessage {
   @@index([companyId])
 }
 
+
+model AdminContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
 model Account {
   userId            String
   type              String
