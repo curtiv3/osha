@@ -21,7 +21,7 @@ export function Sidebar() {
               href={item.href}
               className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-text-secondary transition hover:bg-elevated hover:text-text-primary"
             >
-              <Icon className="size-4" />
+              <Icon suppressHydrationWarning className="size-4" />
               {item.label}
             </Link>
           );

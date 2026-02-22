@@ -57,7 +57,7 @@ export default async function DashboardPage() {
       </div>
 
       <div className="flex items-start gap-3 rounded-lg border border-border bg-elevated p-4">
-        <TriangleAlert className="mt-0.5 size-5 text-accent-warm" />
+        <TriangleAlert suppressHydrationWarning className="mt-0.5 size-5 text-accent-warm" />
         <p className="text-sm text-text-secondary">
           Priorisiere hohe Risiken: Repeat/Willful-Strafen können bis zu $165,514 pro Verstoß betragen.
         </p>
