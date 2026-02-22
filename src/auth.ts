@@ -9,7 +9,7 @@ import { loginSchema } from "@/lib/auth-schema";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: PrismaAdapter(prisma),
-  session: { strategy: "database" },
+  session: { strategy: "jwt" },
   pages: {
     signIn: "/login",
   },
@@ -52,11 +52,27 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     }),
   ],
   callbacks: {
-    session: async ({ session, user }) => {
+    jwt: async ({ token, user }) => {
+      if (user) {
+        token.role = user.role;
+        token.companyId = user.companyId;
+      }
+
+      if (!token.role) {
+        token.role = "SITE_MANAGER";
+      }
+
+      if (typeof token.companyId === "undefined") {
+        token.companyId = null;
+      }
+
+      return token;
+    },
+    session: async ({ session, token }) => {
       if (session.user) {
-        session.user.id = user.id;
-        session.user.role = user.role;
-        session.user.companyId = user.companyId;
+        session.user.id = token.sub ?? session.user.id;
+        session.user.role = (token.role as "ADMIN" | "SITE_MANAGER") ?? "SITE_MANAGER";
+        session.user.companyId = (token.companyId as string | null) ?? null;
       }
       return session;
     },
