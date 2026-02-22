@@ -66,3 +66,37 @@
   - `PATCH /api/admin/users/[id]`
   - `GET/PUT /api/admin/checklist-templates`
   - `GET /api/admin/analytics`
+
+
+## Phase 5 (started)
+- Billing page `/dashboard/billing` with plan selection cards
+- Stripe Checkout API: `POST /api/billing/checkout`
+- Stripe Webhook API: `POST /api/billing/webhook` for subscription sync
+- User subscription fields added in Prisma (`subscriptionStatus`, `stripeCustomerId`, `stripePriceId`)
+- Stripe plan env support added (`STRIPE_PRICE_BASIC_MONTHLY`, `STRIPE_PRICE_PRO_MONTHLY`)
+
+## Phase 7 (started)
+- Stability/polish pass executed for auth + production build readiness.
+- Replaced `bcryptjs` dependency usage with Node.js `crypto.scrypt` helper (`src/lib/password.ts`) to avoid missing-module build failures in restricted environments.
+- Updated credentials auth verification and register hashing to use shared password helper.
+- Validation checks run:
+  - `npm run lint` ✅
+  - `npm run build` ✅
+
+## Ready-to-test checklist (latest)
+1. Register new user and login with credentials.
+2. Confirm onboarding still creates company/site and redirects into dashboard.
+3. Verify login with wrong password is rejected.
+4. Verify production build command succeeds locally (`npm run build`).
+
+
+## Phase 6 (completed)
+- PDF Export for incidents implemented via `GET /api/reports/incidents/[incidentId]` using `pdf-lib`.
+- Incident list now includes direct PDF download action for each record.
+- Email alerts for HIGH/CRITICAL incidents implemented with Resend helper (`RESEND_API_KEY` + `ALERT_EMAIL_TO`).
+- Alerts include company/site/incident context, AI assessment summary, and OSHA penalty reminder.
+
+## Phase 6 test focus
+1. Create a HIGH or CRITICAL incident and verify request succeeds.
+2. Download report PDF from incidents page and verify contents.
+3. Configure `RESEND_API_KEY` + `ALERT_EMAIL_TO` and verify alert email delivery for HIGH/CRITICAL incidents.

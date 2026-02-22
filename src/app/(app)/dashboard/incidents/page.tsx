@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserContext } from "@/lib/auth-context";
@@ -23,6 +24,14 @@ export default async function IncidentsPage() {
             <p className="text-sm text-text-secondary">{incident.site.name} · {incident.severity}</p>
             <h3 className="font-heading text-lg text-text-primary">{incident.title}</h3>
             <p className="mt-2 text-sm text-text-secondary">{incident.aiAssessment ?? "No AI assessment yet."}</p>
+            <div className="mt-3">
+              <Link
+                href={`/api/reports/incidents/${incident.id}`}
+                className="text-sm text-accent-cool underline underline-offset-4"
+              >
+                PDF Report herunterladen
+              </Link>
+            </div>
           </article>
         ))}
       </div>

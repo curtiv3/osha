@@ -2,9 +2,9 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/auth-schema";
+import { verifyPassword } from "@/lib/password";
 
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -35,7 +35,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           return null;
         }
 
-        const isValid = await bcrypt.compare(parsed.data.password, user.passwordHash);
+        const isValid = await verifyPassword(parsed.data.password, user.passwordHash);
         if (!isValid) {
           return null;
         }
@@ -54,8 +54,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     jwt: async ({ token, user }) => {
       if (user) {
-        token.role = user.role;
-        token.companyId = user.companyId;
+        const enrichedUser = user as { role?: "ADMIN" | "SITE_MANAGER"; companyId?: string | null };
+        token.role = enrichedUser.role ?? token.role;
+        token.companyId = typeof enrichedUser.companyId === "undefined" ? token.companyId : enrichedUser.companyId;
       }
 
       if (!token.role) {

@@ -1,8 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { registerSchema } from "@/lib/auth-schema";
+import { hashPassword } from "@/lib/password";
 
 export async function POST(request: Request) {
   if (!process.env.DATABASE_URL) {
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "A user with this email already exists." }, { status: 409 });
     }
 
-    const passwordHash = await bcrypt.hash(parsed.data.password, 12);
+    const passwordHash = await hashPassword(parsed.data.password);
 
     const user = await prisma.user.create({
       data: {

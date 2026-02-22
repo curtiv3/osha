@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { Bot, ClipboardCheck, LayoutDashboard, Settings, ShieldAlert } from "lucide-react";
+import { Bot, ClipboardCheck, CreditCard, LayoutDashboard, Settings, ShieldAlert } from "lucide-react";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/checklists", label: "Checklisten", icon: ClipboardCheck },
   { href: "/dashboard/incidents", label: "Vorfälle", icon: ShieldAlert },
   { href: "/dashboard/ai-chat", label: "AI Chat", icon: Bot },
+  { href: "/dashboard/billing", label: "Billing", icon: CreditCard },
   { href: "/admin", label: "Admin", icon: Settings },
 ];
 

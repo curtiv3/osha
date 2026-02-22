@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { getCurrentUserContext } from "@/lib/auth-context";
+import { sendCriticalIncidentEmail } from "@/lib/notifications/critical-incident-email";
 
 const incidentSchema = z.object({
   siteId: z.string().min(1),
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
 
   const site = await prisma.site.findFirst({
     where: { id: parsed.data.siteId, companyId: context.companyId },
-    select: { id: true },
+    select: { id: true, name: true, company: { select: { name: true } } },
   });
 
   if (!site) {
@@ -77,6 +78,22 @@ export async function POST(request: Request) {
       aiAssessment,
     },
   });
+
+  if (incident.severity === "HIGH" || incident.severity === "CRITICAL") {
+    try {
+      await sendCriticalIncidentEmail({
+        companyName: site.company.name,
+        siteName: site.name,
+        title: incident.title,
+        severity: incident.severity,
+        details: incident.details,
+        aiAssessment: incident.aiAssessment,
+        incidentId: incident.id,
+      });
+    } catch (error) {
+      console.error("Failed to send critical incident alert email", error);
+    }
+  }
 
   return NextResponse.json({ incident }, { status: 201 });
 }

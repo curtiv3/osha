@@ -11,11 +11,6 @@ declare module "next-auth" {
       companyId: string | null;
     } & DefaultSession["user"];
   }
-
-  interface User {
-    role: Role;
-    companyId: string | null;
-  }
 }
 
 declare module "next-auth/jwt" {
