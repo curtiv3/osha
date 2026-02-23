@@ -9,7 +9,7 @@ export async function requireAdmin() {
   }
 
   if (context.role !== "ADMIN") {
-    redirect("/dashboard");
+    redirect("/forbidden");
   }
 
   return context;

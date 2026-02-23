@@ -38,8 +38,9 @@ export default async function AdminPage() {
 
   return (
     <section className="space-y-6">
-      <div>
-        <h2 className="font-heading text-2xl text-text-primary">Admin Panel</h2>
+      <div className="rounded-2xl border border-border/70 bg-surface/70 p-5 backdrop-blur">
+        <p className="text-xs uppercase tracking-wide text-text-tertiary">Admin Console</p>
+        <h2 className="mt-2 font-heading text-2xl text-text-primary">Admin Panel</h2>
         <p className="mt-2 text-text-secondary">Verwalte Benutzer, OSHA-Content und Plattform-Analytics.</p>
       </div>
 

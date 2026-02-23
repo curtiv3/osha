@@ -62,27 +62,28 @@ export default async function DashboardPage() {
 
   return (
     <section className="space-y-6">
-      <div>
-        <h2 className="font-heading text-2xl text-text-primary">Compliance Übersicht</h2>
+      <div className="rounded-2xl border border-border/70 bg-surface/70 p-5 backdrop-blur">
+        <p className="text-xs uppercase tracking-wide text-text-tertiary">Executive Overview</p>
+              <h2 className="mt-2 font-heading text-2xl text-text-primary">Compliance Übersicht</h2>
         <p className="mt-2 text-text-secondary">
           Willkommen {user?.name ?? "Teammitglied"} ({user?.role}) bei {user?.company?.name}.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
-        <article className="rounded-lg border border-border bg-surface p-4">
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
           <p className="text-sm text-text-secondary">Compliance-Score</p>
           <p className="font-data text-2xl text-accent-cool">{complianceScore}%</p>
         </article>
-        <article className="rounded-lg border border-border bg-surface p-4">
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
           <p className="text-sm text-text-secondary">Offene Issues</p>
           <p className="font-data text-2xl text-accent-warm">{openIssues}</p>
         </article>
-        <article className="rounded-lg border border-border bg-surface p-4">
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
           <p className="text-sm text-text-secondary">Incidents gesamt</p>
           <p className="font-data text-2xl text-text-primary">{incidents.length}</p>
         </article>
-        <article className="rounded-lg border border-border bg-surface p-4">
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
           <p className="text-sm text-text-secondary">Sites</p>
           <p className="font-data text-2xl text-text-primary">{sites.length}</p>
         </article>
@@ -92,7 +93,7 @@ export default async function DashboardPage() {
 
       <div className="space-y-3">
         {alerts.map((alert, idx) => (
-          <div key={idx} className="flex items-start gap-3 rounded-lg border border-border bg-elevated p-4">
+          <div key={idx} className="flex items-start gap-3 rounded-xl border border-border/70 bg-elevated/70 p-4">
             <TriangleAlert suppressHydrationWarning className="mt-0.5 size-5 text-accent-warm" />
             <p className="text-sm text-text-secondary">{alert}</p>
           </div>

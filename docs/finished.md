@@ -100,3 +100,15 @@
 1. Create a HIGH or CRITICAL incident and verify request succeeds.
 2. Download report PDF from incidents page and verify contents.
 3. Configure `RESEND_API_KEY` + `ALERT_EMAIL_TO` and verify alert email delivery for HIGH/CRITICAL incidents.
+
+
+## Access/UX hotfix
+- Admin-Link in der Dashboard-Sidebar wird jetzt nur noch für `ADMIN` angezeigt.
+- Nicht-Admins werden bei direktem Zugriff auf `/admin` auf `/forbidden` geleitet (statt zurück aufs Dashboard), um Verwirrung zu vermeiden.
+
+
+## UI Overhaul (Landing + App surfaces)
+- Landingpage komplett neu strukturiert (Hero, Penalty Snapshot, Feature-Sektionen, klarer CTA-Flow).
+- Auth-Seiten (Login/Register/Onboarding) im neuen visuellen Stil mit konsistenter Informationshierarchie.
+- App-Shell überarbeitet (Sidebar/Header/Background), damit Dashboard/Admin und Unterseiten einheitlich wirken.
+- Dashboard- und Admin-Headerbereiche auf neues Branding/Visual-System angepasst.
