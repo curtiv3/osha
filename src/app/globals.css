@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-heading: "Inter";
+  --font-data: "JetBrains Mono";
+  --radius: 0.75rem;
+
+  --color-void: 220 21% 10%;
+  --color-surface: 220 18% 14%;
+  --color-elevated: 220 16% 18%;
+
+  --color-text-primary: 210 20% 96%;
+  --color-text-secondary: 215 16% 72%;
+  --color-text-tertiary: 215 10% 55%;
+
+  --color-accent-warm: 24 90% 62%;
+  --color-accent-cool: 199 92% 60%;
+  --color-accent-dream: 271 85% 71%;
+
+  --color-border: 220 12% 26%;
+  --color-ring: 199 92% 60%;
+}
+
+* {
+  @apply border-border;
+}
+
+body {
+  @apply bg-void text-text-primary antialiased;
+}

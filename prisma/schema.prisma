@@ -1,0 +1,193 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  SITE_MANAGER
+}
+
+enum IncidentSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model User {
+  id               String    @id @default(cuid())
+  name             String?
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  passwordHash     String?
+  role             Role      @default(SITE_MANAGER)
+  companyId        String?
+  subscriptionTier String    @default("FREE")
+  subscriptionStatus String  @default("inactive")
+  stripeCustomerId  String?  @unique
+  stripePriceId     String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  company          Company?  @relation(fields: [companyId], references: [id])
+  accounts         Account[]
+  sessions         Session[]
+  audits           Audit[]
+  incidents        Incident[]
+  chatMessages     ComplianceChatMessage[]
+}
+
+
+model Company {
+  id         String      @id @default(cuid())
+  name       String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  users      User[]
+  sites      Site[]
+  checklists Checklist[]
+  audits     Audit[]
+  incidents  Incident[]
+  chatMessages ComplianceChatMessage[]
+}
+
+model Site {
+  id         String      @id @default(cuid())
+  companyId  String
+  name       String
+  address    String?
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  company    Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  checklists Checklist[]
+  audits     Audit[]
+  incidents  Incident[]
+
+  @@index([companyId])
+}
+
+model Checklist {
+  id          String    @id @default(cuid())
+  companyId   String
+  siteId      String
+  title       String
+  description String?
+  items       Json
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  company     Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  site        Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([siteId])
+}
+
+model Audit {
+  id           String    @id @default(cuid())
+  companyId    String
+  siteId       String
+  createdById  String
+  summary      String?
+  findings     Json
+  riskScore    Int       @default(0)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  company      Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  site         Site      @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  createdBy    User      @relation(fields: [createdById], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([siteId])
+}
+
+model Incident {
+  id           String           @id @default(cuid())
+  companyId    String
+  siteId       String
+  reportedById String
+  title        String
+  details      String?
+  severity     IncidentSeverity @default(MEDIUM)
+  imageUrl     String?
+  aiAssessment String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  company      Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  site         Site             @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  reportedBy   User             @relation(fields: [reportedById], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([siteId])
+}
+
+
+model ComplianceChatMessage {
+  id         String   @id @default(cuid())
+  userId     String
+  companyId  String?
+  prompt     String
+  response   String
+  createdAt  DateTime @default(now())
+
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company    Company? @relation(fields: [companyId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([companyId])
+}
+
+
+model AdminContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+}
+
+model Account {
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([sessionToken])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@id([identifier, token])
+}
