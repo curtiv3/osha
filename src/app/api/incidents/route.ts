@@ -10,22 +10,68 @@ const incidentSchema = z.object({
   title: z.string().min(3),
   details: z.string().min(3),
   severity: z.enum(["LOW", "MEDIUM", "HIGH", "CRITICAL"]),
-  imageUrl: z.string().url().optional(),
+  imageUrl: z.string().optional(),
 });
 
-const openai = process.env.OPENAI_API_KEY ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) : null;
+const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null;
+
+const OSHA_SYSTEM_PROMPT = `You are an OSHA construction safety compliance expert. Analyze the reported incident and any attached photo. Provide a structured assessment:
+
+1. **Hazard Classification**: Identify the hazard type — fall, struck-by, electrocution, caught-in/between, or other.
+
+2. **Applicable OSHA Standard**: Reference specific 29 CFR 1926 subparts:
+   - Fall Protection: 29 CFR 1926.501
+   - Scaffolding: 29 CFR 1926.451
+   - Ladders: 29 CFR 1926.1053
+   - Electrical: 29 CFR 1926.405
+   - Head Protection: 29 CFR 1926.100
+   - Hazard Communication: 29 CFR 1926.59
+   - Excavations: 29 CFR 1926.651
+   - Stairways: 29 CFR 1926.1052
+
+3. **Violation Severity**: Serious, Other-than-Serious, Willful, or Repeat.
+
+4. **Potential Penalty**: Serious violations up to $16,550/violation. Willful/repeat up to $165,514.
+
+5. **Recommended Actions**: Specific, actionable steps to fix the hazard immediately.
+
+If a photo is provided, analyze it for visible safety violations: missing PPE, fall hazards, electrical hazards, improper scaffolding, housekeeping issues, and any other OSHA-relevant concerns.
+
+Be specific. Reference actual standards. Keep the response concise and actionable — this will be read by a foreman on a phone screen.`;
 
 async function generateAssessment(input: z.infer<typeof incidentSchema>) {
   if (!openai) {
     return "AI assessment unavailable: OPENAI_API_KEY not configured. Prioritize immediate supervisor review for high/critical incidents.";
   }
 
-  const completion = await openai.responses.create({
-    model: "gpt-4o-mini",
-    input: `You are an OSHA compliance assistant. Incident title: ${input.title}. Details: ${input.details}. Severity: ${input.severity}. Image URL: ${input.imageUrl ?? "n/a"}. Provide a short risk assessment and mitigation actions. Include mention of potential serious ($16,550) and repeat/willful ($165,514) exposure when relevant.`,
+  const userContent: OpenAI.ChatCompletionContentPart[] = [
+    {
+      type: "text",
+      text: `Incident Report:\n- Title: ${input.title}\n- Details: ${input.details}\n- Severity reported: ${input.severity}`,
+    },
+  ];
+
+  if (input.imageUrl) {
+    userContent.push({
+      type: "image_url",
+      image_url: { url: input.imageUrl, detail: "high" },
+    });
+  }
+
+  const model = input.imageUrl ? "gpt-4o" : "gpt-4o-mini";
+
+  const completion = await openai.chat.completions.create({
+    model,
+    messages: [
+      { role: "system", content: OSHA_SYSTEM_PROMPT },
+      { role: "user", content: userContent },
+    ],
+    max_tokens: 1000,
   });
 
-  return completion.output_text || "No AI assessment generated.";
+  return completion.choices[0]?.message?.content || "No AI assessment generated.";
 }
 
 export async function GET() {
@@ -52,7 +98,10 @@ export async function POST(request: Request) {
   const payload = await request.json();
   const parsed = incidentSchema.safeParse(payload);
   if (!parsed.success) {
-    return NextResponse.json({ error: "Invalid incident payload." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid incident payload." },
+      { status: 400 },
+    );
   }
 
   const site = await prisma.site.findFirst({
@@ -61,7 +110,10 @@ export async function POST(request: Request) {
   });
 
   if (!site) {
-    return NextResponse.json({ error: "Invalid site for this company." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Invalid site for this company." },
+      { status: 400 },
+    );
   }
 
   const aiAssessment = await generateAssessment(parsed.data);
