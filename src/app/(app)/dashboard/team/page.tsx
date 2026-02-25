@@ -32,9 +32,9 @@ export default async function TeamPage() {
   const isAdmin = context.role === "ADMIN";
 
   return (
-    <section className="space-y-6">
+    <section className="space-y-4 sm:space-y-6">
       <div>
-        <h2 className="font-heading text-2xl text-text-primary">Team</h2>
+        <h2 className="font-heading text-xl text-text-primary sm:text-2xl">Team</h2>
         <p className="mt-1 text-sm text-text-secondary">
           {company?.name} · {members.length} member
           {members.length !== 1 ? "s" : ""} ·{" "}
@@ -53,19 +53,19 @@ export default async function TeamPage() {
           {members.map((member, i) => (
             <div
               key={member.id}
-              className={`flex items-center justify-between px-4 py-3 ${
+              className={`flex flex-col gap-1 px-3 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-4 ${
                 i % 2 === 0 ? "bg-elevated" : "bg-surface"
               }`}
             >
-              <div>
-                <p className="text-sm font-medium text-text-primary">
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-text-primary">
                   {member.name ?? member.email}
                 </p>
                 {member.name && (
-                  <p className="text-xs text-text-tertiary">{member.email}</p>
+                  <p className="truncate text-xs text-text-tertiary">{member.email}</p>
                 )}
               </div>
-              <span className="rounded-full bg-surface px-2 py-0.5 text-xs text-text-secondary">
+              <span className="w-fit rounded-full bg-surface px-2 py-0.5 text-xs text-text-secondary">
                 {member.role === "ADMIN" ? "Admin" : "Site Manager"}
               </span>
             </div>

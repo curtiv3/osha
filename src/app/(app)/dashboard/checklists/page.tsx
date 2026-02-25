@@ -23,14 +23,14 @@ export default async function ChecklistsPage() {
   ]);
 
   return (
-    <section className="space-y-6">
-      <h2 className="font-heading text-2xl text-text-primary">Checklists</h2>
+    <section className="space-y-4 sm:space-y-6">
+      <h2 className="font-heading text-xl text-text-primary sm:text-2xl">Checklists</h2>
       <ChecklistForm sites={sites} templates={oshaChecklistTemplates} />
       <div className="space-y-3">
         {checklists.map((checklist) => (
           <article
             key={checklist.id}
-            className="rounded-lg border border-border bg-surface p-4"
+            className="rounded-lg border border-border bg-surface p-3 sm:p-4"
           >
             <p className="text-sm text-text-secondary">
               {checklist.site.name}

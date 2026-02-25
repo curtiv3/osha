@@ -23,9 +23,9 @@ export function MetricsCharts({
 }) {
   return (
     <div className="grid gap-4 lg:grid-cols-2">
-      <article className="rounded-lg border border-border bg-surface p-4">
-        <h3 className="font-heading text-lg text-text-primary">Violations pro Monat</h3>
-        <div className="mt-4 h-64">
+      <article className="rounded-lg border border-border bg-surface p-3 sm:p-4">
+        <h3 className="font-heading text-lg text-text-primary">Violations by Month</h3>
+        <div className="mt-4 h-48 sm:h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={monthlyViolations}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--color-border))" />
@@ -38,8 +38,8 @@ export function MetricsCharts({
         </div>
       </article>
 
-      <article className="rounded-lg border border-border bg-surface p-4">
-        <h3 className="font-heading text-lg text-text-primary">Risk Heatmap nach Site</h3>
+      <article className="rounded-lg border border-border bg-surface p-3 sm:p-4">
+        <h3 className="font-heading text-lg text-text-primary">Risk Heatmap by Site</h3>
         <div className="mt-4 space-y-3">
           {siteRiskHeatmap.map((point) => (
             <div key={point.site}>

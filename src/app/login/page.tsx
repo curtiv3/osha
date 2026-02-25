@@ -17,9 +17,9 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-void px-6 py-12">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-void px-4 py-8 sm:px-6 sm:py-12">
       <div className="pointer-events-none absolute -top-24 left-1/2 h-80 w-80 -translate-x-1/2 rounded-full bg-accent-cool/20 blur-3xl" />
-      <section className="relative w-full max-w-md rounded-2xl border border-border/70 bg-surface/80 p-7 backdrop-blur">
+      <section className="relative w-full max-w-md rounded-2xl border border-border/70 bg-surface/80 p-5 backdrop-blur sm:p-7">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Welcome back</p>
         <h1 className="mt-2 font-heading text-2xl text-text-primary">Sign In</h1>
         <p className="mt-2 text-sm text-text-secondary">Manage risks, incidents, and compliance reports in one workspace.</p>

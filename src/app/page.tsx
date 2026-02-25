@@ -48,7 +48,7 @@ export default function HomePage() {
   return (
     <main className="bg-void">
       {/* Nav */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 sm:py-5">
         <div className="flex items-center gap-2">
           <Shield className="size-5 text-amber-500" />
           <span className="font-heading text-lg font-bold text-text-primary">
@@ -72,10 +72,10 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <section className="mx-auto max-w-6xl px-6 pb-20 pt-12 sm:pt-20">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+      <section className="mx-auto max-w-6xl px-4 pb-16 pt-8 sm:px-6 sm:pb-20 sm:pt-20">
+        <div className="grid items-center gap-8 sm:gap-12 lg:grid-cols-[1.2fr_0.8fr]">
           <div>
-            <h1 className="font-heading text-4xl font-bold leading-[1.1] text-text-primary sm:text-5xl lg:text-6xl">
+            <h1 className="font-heading text-3xl font-bold leading-[1.1] text-text-primary sm:text-5xl lg:text-6xl">
               Your{" "}
               <span className="font-data text-amber-500">$16,550</span>{" "}
               problem has a{" "}
@@ -101,7 +101,7 @@ export default function HomePage() {
           </div>
 
           {/* Penalty snapshot */}
-          <div className="rounded-xl border border-border bg-surface p-6">
+          <div className="rounded-xl border border-border bg-surface p-4 sm:p-6">
             <p className="text-xs font-medium uppercase tracking-widest text-text-tertiary">
               Current OSHA Penalties
             </p>
@@ -132,8 +132,8 @@ export default function HomePage() {
 
       {/* The Problem */}
       <section className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+          <h2 className="font-heading text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl">
             OSHA doesn&apos;t care that you&apos;re a small crew.
           </h2>
           <p className="mt-4 max-w-2xl text-text-secondary">
@@ -150,7 +150,7 @@ export default function HomePage() {
             <p className="mt-1 text-sm text-text-tertiary">
               65.5% of construction fatalities come from four causes.
             </p>
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
               {fatalFour.map((item) => (
                 <div
                   key={item.cause}
@@ -179,11 +179,11 @@ export default function HomePage() {
               {topCited.map((item, i) => (
                 <div
                   key={item.standard}
-                  className={`flex items-center justify-between px-4 py-3 ${
+                  className={`flex items-center justify-between px-3 py-2.5 sm:px-4 sm:py-3 ${
                     i % 2 === 0 ? "bg-elevated" : "bg-surface"
                   }`}
                 >
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 sm:gap-4">
                     <span className="font-data text-sm text-text-tertiary">
                       #{item.rank}
                     </span>
@@ -207,14 +207,14 @@ export default function HomePage() {
       </section>
 
       {/* How it works */}
-      <section className="mx-auto max-w-6xl px-6 py-20">
-        <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl">
+      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-20">
+        <h2 className="font-heading text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl">
           Three steps. Five minutes.
         </h2>
         <p className="mt-4 text-text-secondary">
           No training. No onboarding call. Open the app and go.
         </p>
-        <div className="mt-12 grid gap-10 md:grid-cols-3">
+        <div className="mt-8 grid gap-8 sm:mt-12 sm:gap-10 md:grid-cols-3">
           {steps.map((step) => {
             const Icon = step.icon;
             return (
@@ -237,17 +237,17 @@ export default function HomePage() {
 
       {/* Pricing */}
       <section className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-4xl px-6 py-20">
-          <h2 className="text-center font-heading text-3xl font-bold text-text-primary sm:text-4xl">
+        <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-20">
+          <h2 className="text-center font-heading text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl">
             Simple pricing. No surprises.
           </h2>
           <p className="mt-4 text-center text-text-secondary">
             Start free. Upgrade when you need AI photo analysis and multi-site
             support.
           </p>
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="mt-8 grid gap-6 sm:mt-12 md:grid-cols-2">
             {/* Free tier */}
-            <div className="rounded-xl border border-border bg-elevated p-6">
+            <div className="rounded-xl border border-border bg-elevated p-5 sm:p-6">
               <p className="text-sm font-medium uppercase tracking-widest text-text-tertiary">
                 Free
               </p>
@@ -280,7 +280,7 @@ export default function HomePage() {
             </div>
 
             {/* Pro tier */}
-            <div className="relative rounded-xl border-2 border-amber-500 bg-elevated p-6">
+            <div className="relative rounded-xl border-2 border-amber-500 bg-elevated p-5 sm:p-6">
               <span className="absolute -top-3 left-4 rounded-full bg-amber-500 px-3 py-0.5 text-xs font-bold text-void">
                 MOST POPULAR
               </span>
@@ -330,8 +330,8 @@ export default function HomePage() {
       </section>
 
       {/* CTA Footer */}
-      <section className="mx-auto max-w-6xl px-6 py-20 text-center">
-        <h2 className="font-heading text-3xl font-bold text-text-primary sm:text-4xl">
+      <section className="mx-auto max-w-6xl px-4 py-12 text-center sm:px-6 sm:py-20">
+        <h2 className="font-heading text-2xl font-bold text-text-primary sm:text-3xl md:text-4xl">
           Stop hoping OSHA doesn&apos;t show up.
         </h2>
         <p className="mt-4 text-text-secondary">
@@ -347,9 +347,9 @@ export default function HomePage() {
 
       {/* Footer */}
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-xs text-text-tertiary">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-2 px-4 py-6 text-xs text-text-tertiary sm:flex-row sm:justify-between sm:px-6">
           <span>&copy; 2025 SafeSite</span>
-          <span>
+          <span className="text-center">
             Built for crews who&apos;d rather be on the jobsite than in a
             courtroom.
           </span>

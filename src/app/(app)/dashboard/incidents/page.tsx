@@ -30,8 +30,8 @@ export default async function IncidentsPage() {
   ]);
 
   return (
-    <section className="space-y-6">
-      <h2 className="font-heading text-2xl text-text-primary">
+    <section className="space-y-4 sm:space-y-6">
+      <h2 className="font-heading text-xl text-text-primary sm:text-2xl">
         Incident Reporting
       </h2>
       <IncidentForm sites={sites} />
@@ -39,9 +39,9 @@ export default async function IncidentsPage() {
         {incidents.map((incident) => (
           <article
             key={incident.id}
-            className="rounded-lg border border-border bg-surface p-4"
+            className="rounded-lg border border-border bg-surface p-3 sm:p-4"
           >
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
               <div className="min-w-0 flex-1">
                 <p className="text-sm text-text-secondary">
                   {incident.site.name} ·{" "}

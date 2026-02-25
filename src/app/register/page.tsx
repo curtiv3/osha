@@ -17,9 +17,9 @@ export default async function RegisterPage() {
   }
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-void px-6 py-12">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-void px-4 py-8 sm:px-6 sm:py-12">
       <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 rounded-full bg-accent-dream/20 blur-3xl" />
-      <section className="relative w-full max-w-md rounded-2xl border border-border/70 bg-surface/80 p-7 backdrop-blur">
+      <section className="relative w-full max-w-md rounded-2xl border border-border/70 bg-surface/80 p-5 backdrop-blur sm:p-7">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Get started</p>
         <h1 className="mt-2 font-heading text-2xl text-text-primary">Create Account</h1>
         <p className="mt-2 text-sm text-text-secondary">Set up your account and get started with OSHA compliance tracking.</p>

@@ -61,8 +61,8 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <section className="space-y-6">
-      <div className="rounded-2xl border border-border/70 bg-surface/70 p-5 backdrop-blur">
+    <section className="space-y-4 sm:space-y-6">
+      <div className="rounded-2xl border border-border/70 bg-surface/70 p-4 backdrop-blur sm:p-5">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Executive Overview</p>
         <h2 className="mt-2 font-heading text-2xl text-text-primary">Compliance Overview</h2>
         <p className="mt-2 text-text-secondary">
@@ -70,22 +70,22 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-4">
-        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Compliance Score</p>
-          <p className="font-data text-2xl text-accent-cool">{complianceScore}%</p>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4">
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-3 backdrop-blur sm:p-4">
+          <p className="text-xs text-text-secondary sm:text-sm">Compliance Score</p>
+          <p className="font-data text-xl text-accent-cool sm:text-2xl">{complianceScore}%</p>
         </article>
-        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Open Issues</p>
-          <p className="font-data text-2xl text-accent-warm">{openIssues}</p>
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-3 backdrop-blur sm:p-4">
+          <p className="text-xs text-text-secondary sm:text-sm">Open Issues</p>
+          <p className="font-data text-xl text-accent-warm sm:text-2xl">{openIssues}</p>
         </article>
-        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Total Incidents</p>
-          <p className="font-data text-2xl text-text-primary">{incidents.length}</p>
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-3 backdrop-blur sm:p-4">
+          <p className="text-xs text-text-secondary sm:text-sm">Total Incidents</p>
+          <p className="font-data text-xl text-text-primary sm:text-2xl">{incidents.length}</p>
         </article>
-        <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Sites</p>
-          <p className="font-data text-2xl text-text-primary">{sites.length}</p>
+        <article className="rounded-xl border border-border/70 bg-surface/70 p-3 backdrop-blur sm:p-4">
+          <p className="text-xs text-text-secondary sm:text-sm">Sites</p>
+          <p className="font-data text-xl text-text-primary sm:text-2xl">{sites.length}</p>
         </article>
       </div>
 
@@ -93,7 +93,7 @@ export default async function DashboardPage() {
 
       <div className="space-y-3">
         {alerts.map((alert, idx) => (
-          <div key={idx} className="flex items-start gap-3 rounded-xl border border-border/70 bg-elevated/70 p-4">
+          <div key={idx} className="flex items-start gap-3 rounded-xl border border-border/70 bg-elevated/70 p-3 sm:p-4">
             <TriangleAlert suppressHydrationWarning className="mt-0.5 size-5 text-accent-warm" />
             <p className="text-sm text-text-secondary">{alert}</p>
           </div>

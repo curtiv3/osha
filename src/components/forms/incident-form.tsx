@@ -103,11 +103,11 @@ export function IncidentForm({ sites }: { sites: SiteOption[] }) {
     "mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary placeholder:text-text-tertiary";
 
   return (
-    <div className="rounded-lg border border-border bg-surface p-4">
+    <div className="rounded-lg border border-border bg-surface p-3 sm:p-4">
       <h3 className="font-heading text-lg text-text-primary">
         Report Incident
       </h3>
-      <div className="mt-4 grid gap-4">
+      <div className="mt-3 grid gap-3 sm:mt-4 sm:gap-4">
         <div>
           <label className="text-sm font-medium text-text-secondary">
             Site
@@ -203,7 +203,7 @@ export function IncidentForm({ sites }: { sites: SiteOption[] }) {
               }}
               role="button"
               tabIndex={0}
-              className="mt-1 flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-border bg-elevated px-4 py-8 text-center transition-colors hover:border-accent-warm"
+              className="mt-1 flex cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-border bg-elevated px-4 py-6 text-center transition-colors hover:border-accent-warm sm:py-8"
             >
               <svg
                 className="mb-2 h-8 w-8 text-text-tertiary"

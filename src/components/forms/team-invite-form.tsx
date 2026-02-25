@@ -46,7 +46,7 @@ export function TeamInviteForm() {
     "mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary placeholder:text-text-tertiary";
 
   return (
-    <div className="rounded-lg border border-border bg-surface p-4">
+    <div className="rounded-lg border border-border bg-surface p-3 sm:p-4">
       <h3 className="font-heading text-lg text-text-primary">
         Invite Team Member
       </h3>
@@ -76,7 +76,7 @@ export function TeamInviteForm() {
           variant="accent"
           onClick={submit}
           disabled={loading || !email}
-          className="mt-1"
+          className="mt-1 sm:mt-0"
         >
           {loading ? "Sending..." : "Invite"}
         </Button>
