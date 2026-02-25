@@ -13,12 +13,11 @@ export const metadata: Metadata = {
 
 export default async function BillingPage() {
   const context = await getCurrentUserContext();
-  if (!context.userId) {
-    redirect("/login");
-  }
+  if (!context.userId) redirect("/login");
+  if (!context.companyId) redirect("/onboarding");
 
-  const user = await prisma.user.findUnique({
-    where: { id: context.userId },
+  const company = await prisma.company.findUnique({
+    where: { id: context.companyId },
     select: { subscriptionTier: true, subscriptionStatus: true },
   });
 
@@ -29,12 +28,25 @@ export default async function BillingPage() {
       <div>
         <h2 className="font-heading text-2xl text-text-primary">Billing</h2>
         <p className="mt-2 text-text-secondary">
-          Aktueller Status: <span className="font-data">{user?.subscriptionStatus ?? "inactive"}</span> · Tier:{" "}
-          <span className="font-data">{user?.subscriptionTier ?? "FREE"}</span>
+          Status:{" "}
+          <span className="font-data">
+            {company?.subscriptionStatus ?? "inactive"}
+          </span>{" "}
+          · Plan:{" "}
+          <span className="font-data">
+            {company?.subscriptionTier ?? "FREE"}
+          </span>
+        </p>
+        <p className="mt-1 text-xs text-text-tertiary">
+          Your subscription applies to everyone on your team.
         </p>
       </div>
 
-      <PlanCards plans={plans} currentTier={user?.subscriptionTier ?? "FREE"} />
+      <PlanCards
+        plans={plans}
+        currentTier={company?.subscriptionTier ?? "FREE"}
+        isAdmin={context.role === "ADMIN"}
+      />
     </section>
   );
 }
