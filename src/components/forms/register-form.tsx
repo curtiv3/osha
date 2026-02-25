@@ -51,7 +51,7 @@ export function RegisterForm() {
         <input type="email" className="mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary" {...form.register("email")} />
       </label>
       <label className="block text-sm text-text-secondary">
-        Passwort
+        Password
         <input
           type="password"
           className="mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary"
@@ -59,7 +59,7 @@ export function RegisterForm() {
         />
       </label>
       <label className="block text-sm text-text-secondary">
-        Rolle
+        Role
         <select className="mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary" {...form.register("role")}>
           <option value="SITE_MANAGER">Site Manager</option>
           <option value="ADMIN">Admin</option>
@@ -67,7 +67,7 @@ export function RegisterForm() {
       </label>
       {error ? <p className="text-sm text-accent-warm">{error}</p> : null}
       <Button type="submit" variant="accent" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? "Erstelle Konto…" : "Konto erstellen"}
+        {form.formState.isSubmitting ? "Creating account…" : "Create Account"}
       </Button>
     </form>
   );

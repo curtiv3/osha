@@ -40,7 +40,7 @@ export default async function OnboardingPage() {
       <section className="relative w-full max-w-3xl rounded-2xl border border-border/70 bg-surface/80 p-7 backdrop-blur">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Step 1 of 1</p>
         <h1 className="mt-2 font-heading text-3xl text-text-primary">Workspace Onboarding</h1>
-        <p className="mt-2 text-text-secondary">Lege Firma und Baustellen an, damit dein Team direkt mit Checklisten, Audits und Alerts starten kann.</p>
+        <p className="mt-2 text-text-secondary">Set up your company and job sites so your team can start with checklists, audits, and alerts right away.</p>
         <OnboardingForm />
       </section>
     </main>

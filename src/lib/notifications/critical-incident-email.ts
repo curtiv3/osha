@@ -18,7 +18,7 @@ export async function sendCriticalIncidentEmail(input: CriticalIncidentEmailInpu
     return;
   }
 
-  const subject = `[SafetyComplianceSaaS] ${input.severity} incident: ${input.title}`;
+  const subject = `[SafeSite] ${input.severity} incident: ${input.title}`;
   const penaltyText =
     input.severity === "CRITICAL"
       ? "Potential repeat/willful exposure can reach up to $165,514."

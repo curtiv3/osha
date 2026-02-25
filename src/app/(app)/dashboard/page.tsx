@@ -55,32 +55,32 @@ export default async function DashboardPage() {
 
   const alerts = [
     openIssues > 0
-      ? `${openIssues} High/Critical Issues aktiv. Repeat/Willful-Risiko kann bis $165,514 reichen.`
-      : "Keine High/Critical Issues aktiv.",
-    `Serious-Strafen bis $16,550. Aktueller Compliance-Score: ${complianceScore}%`,
+      ? `${openIssues} High/Critical issues open. Repeat/willful exposure can reach $165,514.`
+      : "No High/Critical issues open.",
+    `Serious violations up to $16,550 each. Current compliance score: ${complianceScore}%`,
   ];
 
   return (
     <section className="space-y-6">
       <div className="rounded-2xl border border-border/70 bg-surface/70 p-5 backdrop-blur">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Executive Overview</p>
-              <h2 className="mt-2 font-heading text-2xl text-text-primary">Compliance Übersicht</h2>
+        <h2 className="mt-2 font-heading text-2xl text-text-primary">Compliance Overview</h2>
         <p className="mt-2 text-text-secondary">
-          Willkommen {user?.name ?? "Teammitglied"} ({user?.role}) bei {user?.company?.name}.
+          Welcome back, {user?.name ?? "team member"} ({user?.role}) at {user?.company?.name}.
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-4">
         <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Compliance-Score</p>
+          <p className="text-sm text-text-secondary">Compliance Score</p>
           <p className="font-data text-2xl text-accent-cool">{complianceScore}%</p>
         </article>
         <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Offene Issues</p>
+          <p className="text-sm text-text-secondary">Open Issues</p>
           <p className="font-data text-2xl text-accent-warm">{openIssues}</p>
         </article>
         <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">
-          <p className="text-sm text-text-secondary">Incidents gesamt</p>
+          <p className="text-sm text-text-secondary">Total Incidents</p>
           <p className="font-data text-2xl text-text-primary">{incidents.length}</p>
         </article>
         <article className="rounded-xl border border-border/70 bg-surface/70 p-4 backdrop-blur">

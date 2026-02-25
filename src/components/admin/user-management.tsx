@@ -26,7 +26,7 @@ export function UserManagement({ initialUsers }: { initialUsers: AdminUser[] }) 
     });
 
     if (!res.ok) {
-      setError("Rollen-Update fehlgeschlagen.");
+      setError("Role update failed.");
       return;
     }
 
