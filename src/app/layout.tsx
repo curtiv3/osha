@@ -2,33 +2,37 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
+  ),
   title: {
-    default: "SafetyComplianceSaaS",
-    template: "%s | SafetyComplianceSaaS",
+    default: "SafeSite — OSHA Compliance for Construction Crews",
+    template: "%s | SafeSite",
   },
   description:
-    "SafetyComplianceSaaS hilft Baustellen-Managern OSHA-Verstöße zu vermeiden mit Checklisten, Risikoanalysen und Compliance-Reports.",
+    "SafeSite helps small construction subcontractors stay OSHA-compliant with jobsite checklists, AI photo analysis, and compliance reports.",
   openGraph: {
-    title: "SafetyComplianceSaaS",
+    title: "SafeSite — OSHA Compliance for Construction Crews",
     description:
-      "OSHA Compliance Plattform für Baustellen-Teams mit AI-Risikoanalysen, Audits und Echtzeit-Alerts.",
+      "Jobsite checklists, AI risk analysis, and PDF compliance reports. Built for small crews, not enterprise safety departments.",
     type: "website",
     url: "/",
     images: ["/og-image.svg"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SafetyComplianceSaaS",
+    title: "SafeSite — OSHA Compliance for Construction Crews",
     description:
-      "OSHA Compliance Plattform für Baustellen-Teams mit AI-Risikoanalysen, Audits und Echtzeit-Alerts.",
+      "Jobsite checklists, AI risk analysis, and PDF compliance reports. Built for small crews, not enterprise safety departments.",
     images: ["/og-image.svg"],
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
