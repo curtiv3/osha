@@ -28,10 +28,6 @@ model User {
   passwordHash     String?
   role             Role      @default(SITE_MANAGER)
   companyId        String?
-  subscriptionTier String    @default("FREE")
-  subscriptionStatus String  @default("inactive")
-  stripeCustomerId  String?  @unique
-  stripePriceId     String?
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt
 
@@ -45,17 +41,39 @@ model User {
 
 
 model Company {
-  id         String      @id @default(cuid())
-  name       String
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id                 String      @id @default(cuid())
+  name               String
+  subscriptionTier   String      @default("FREE")
+  subscriptionStatus String      @default("inactive")
+  stripeCustomerId   String?     @unique
+  stripePriceId      String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
 
-  users      User[]
-  sites      Site[]
-  checklists Checklist[]
-  audits     Audit[]
-  incidents  Incident[]
-  chatMessages ComplianceChatMessage[]
+  users              User[]
+  sites              Site[]
+  checklists         Checklist[]
+  audits             Audit[]
+  incidents          Incident[]
+  chatMessages       ComplianceChatMessage[]
+  invites            CompanyInvite[]
+}
+
+model CompanyInvite {
+  id         String    @id @default(cuid())
+  companyId  String
+  email      String
+  role       Role      @default(SITE_MANAGER)
+  token      String    @unique @default(cuid())
+  expiresAt  DateTime
+  acceptedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  company    Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  @@index([companyId])
+  @@index([email])
+  @@index([token])
 }
 
 model Site {

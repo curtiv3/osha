@@ -49,7 +49,7 @@ export function LoginForm() {
         />
       </label>
       <label className="block text-sm text-text-secondary">
-        Passwort
+        Password
         <input
           type="password"
           className="mt-1 w-full rounded-md border border-border bg-elevated px-3 py-2 text-text-primary"
@@ -58,7 +58,7 @@ export function LoginForm() {
       </label>
       {error ? <p className="text-sm text-accent-warm">{error}</p> : null}
       <Button type="submit" variant="accent" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? "Anmeldung…" : "Anmelden"}
+        {form.formState.isSubmitting ? "Signing in…" : "Sign In"}
       </Button>
     </form>
   );

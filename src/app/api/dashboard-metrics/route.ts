@@ -39,9 +39,9 @@ export async function GET() {
 
   const alerts = [
     openIssues > 0
-      ? `Kritische Aufmerksamkeit: ${openIssues} offene High/Critical Issues können Repeat/Willful-Risiken bis $165,514 erhöhen.`
-      : "Keine High/Critical Issues offen. Weiter so.",
-    `Serious violations können bis zu $16,550 kosten. Aktiver Compliance-Score: ${complianceScore}%.`,
+      ? `${openIssues} High/Critical issues open. Repeat/willful exposure can reach $165,514.`
+      : "No High/Critical issues open.",
+    `Serious violations up to $16,550 each. Current compliance score: ${complianceScore}%`,
   ];
 
   return NextResponse.json({

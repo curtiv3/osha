@@ -71,20 +71,20 @@ export function OnboardingForm() {
             />
             {fieldArray.fields.length > 1 ? (
               <Button type="button" variant="outline" onClick={() => fieldArray.remove(index)}>
-                Entfernen
+                Remove
               </Button>
             ) : null}
           </div>
         ))}
         <Button type="button" variant="outline" onClick={() => fieldArray.append({ value: "" })}>
-          Site hinzufügen
+          Add Site
         </Button>
       </div>
 
       {error ? <p className="text-sm text-accent-warm">{error}</p> : null}
 
       <Button type="submit" variant="accent" disabled={form.formState.isSubmitting}>
-        {form.formState.isSubmitting ? "Speichere…" : "Onboarding abschließen"}
+        {form.formState.isSubmitting ? "Saving…" : "Complete Onboarding"}
       </Button>
     </form>
   );

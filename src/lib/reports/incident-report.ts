@@ -21,7 +21,7 @@ export async function buildIncidentReportPdf(data: IncidentReportData): Promise<
 
   let y = height - 48;
 
-  page.drawText("SafetyComplianceSaaS Incident Report", {
+  page.drawText("SafeSite Incident Report", {
     x: 40,
     y,
     size: 18,

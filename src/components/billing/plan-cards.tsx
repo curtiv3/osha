@@ -12,7 +12,15 @@ type Plan = {
   description: string;
 };
 
-export function PlanCards({ plans, currentTier }: { plans: Plan[]; currentTier: string }) {
+export function PlanCards({
+  plans,
+  currentTier,
+  isAdmin,
+}: {
+  plans: Plan[];
+  currentTier: string;
+  isAdmin: boolean;
+}) {
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -26,10 +34,13 @@ export function PlanCards({ plans, currentTier }: { plans: Plan[]; currentTier: 
       body: JSON.stringify({ plan }),
     });
 
-    const data = (await response.json().catch(() => null)) as { error?: string; url?: string } | null;
+    const data = (await response.json().catch(() => null)) as {
+      error?: string;
+      url?: string;
+    } | null;
     if (!response.ok || !data?.url) {
       setLoadingPlan(null);
-      setError(data?.error ?? "Checkout konnte nicht gestartet werden.");
+      setError(data?.error ?? "Could not start checkout.");
       return;
     }
 
@@ -38,23 +49,41 @@ export function PlanCards({ plans, currentTier }: { plans: Plan[]; currentTier: 
 
   return (
     <div className="space-y-4">
-      {error ? <p className="text-sm text-accent-warm">{error}</p> : null}
+      {error && <p className="text-sm text-red-400">{error}</p>}
+      {!isAdmin && (
+        <p className="text-sm text-text-tertiary">
+          Only company admins can change the billing plan.
+        </p>
+      )}
       <div className="grid gap-4 md:grid-cols-2">
         {plans.map((plan) => {
           const isCurrent = currentTier === plan.key;
           return (
-            <article key={plan.key} className="rounded-lg border border-border bg-surface p-4">
-              <h3 className="font-heading text-xl text-text-primary">{plan.name}</h3>
-              <p className="mt-1 text-sm text-text-secondary">{plan.description}</p>
-              <p className="mt-4 font-data text-2xl text-accent-cool">${plan.priceMonthly}/mo</p>
+            <article
+              key={plan.key}
+              className="rounded-lg border border-border bg-surface p-4"
+            >
+              <h3 className="font-heading text-xl text-text-primary">
+                {plan.name}
+              </h3>
+              <p className="mt-1 text-sm text-text-secondary">
+                {plan.description}
+              </p>
+              <p className="mt-4 font-data text-2xl text-accent-cool">
+                ${plan.priceMonthly}/mo
+              </p>
               <div className="mt-4">
                 <Button
                   type="button"
                   variant={isCurrent ? "outline" : "accent"}
-                  disabled={isCurrent || loadingPlan === plan.key}
+                  disabled={isCurrent || !isAdmin || loadingPlan === plan.key}
                   onClick={() => subscribe(plan.key)}
                 >
-                  {isCurrent ? "Aktiver Plan" : loadingPlan === plan.key ? "Weiterleitung…" : "Plan wählen"}
+                  {isCurrent
+                    ? "Current Plan"
+                    : loadingPlan === plan.key
+                      ? "Redirecting..."
+                      : "Select Plan"}
                 </Button>
               </div>
             </article>

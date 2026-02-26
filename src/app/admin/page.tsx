@@ -8,7 +8,7 @@ import { AnalyticsPanel } from "@/components/admin/analytics-panel";
 
 export const metadata: Metadata = {
   title: "Admin",
-  description: "Admin panel for SafetyComplianceSaaS.",
+  description: "Admin panel for SafeSite.",
   robots: { index: false, follow: false },
 };
 
@@ -41,7 +41,7 @@ export default async function AdminPage() {
       <div className="rounded-2xl border border-border/70 bg-surface/70 p-5 backdrop-blur">
         <p className="text-xs uppercase tracking-wide text-text-tertiary">Admin Console</p>
         <h2 className="mt-2 font-heading text-2xl text-text-primary">Admin Panel</h2>
-        <p className="mt-2 text-text-secondary">Verwalte Benutzer, OSHA-Content und Plattform-Analytics.</p>
+        <p className="mt-2 text-text-secondary">Manage users, OSHA content, and platform analytics.</p>
       </div>
 
       <AnalyticsPanel
